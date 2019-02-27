@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+
+<html xml:lang="en-US" lang="en-US" dir="ltr">
+
+<head>
+  
+  <title>Calevents - John Boy's Calendar (Last Updated 3-17-2018)</title>
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="robots" content="noindex, nofollow, noarchive, nocache, nosnippet, noodp, noydir">
+  <meta name="Googlebot" content="noindex, nofollow, noarchive, nocache, nosnippet, noodp, noydir">
+  <meta name="google" content="notranslate">
+  
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <meta http-equiv="Content-Script-Type" content="text/javascript">
+  
+  <link rel="icon" type="image/x-icon" href="Assets/favicon.ico">
+  <link rel="shortcut icon" type="image/x-icon" href="Assets/favicon.ico">
+  <link rel="canonical" href="Assets/canonical_graduate.jpg">
+  
+  <link rel="stylesheet" href="http://54.189.130.155/sites/shared/webtemplates/Mine.css">
+  
+  <!-- jquery  -->
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  
+  <!-- facebook react -->
+  <script type="text/javascript" src="reactSDK/build/react.js"></script>
+  <script type="text/javascript" src="reactSDK/build/react-dom.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
+  
+  <!-- React countdown timer -->
+  <script type="text/babel">
+    
+    var BetterCDT = React.createClass
+    ({
+      render: function()
+      {
+        var t = Date.parse(new Date(this.props.initDate)) - Date.parse(new Date());
+        var seconds = Math.floor( (t/1000) % 60 );
+        var minutes = Math.floor( (t/1000/60) % 60 );
+        var hours = Math.floor( (t/(1000*60*60)) % 24 );
+        var days = Math.floor( t/(1000*60*60*24) );
+        var message = days +' days, ' + hours + ' hours, ' + minutes + ' minutes, ' + seconds + ' seconds';
+        return <div>{message}</div>;
+      }
+    });
+    
+    /***************************************** Countdown Timer Variables **********************************************************/
+    
+    setInterval(function() 
+    {
+      // the forward slash at the end of initDate is critical - do not remove -->
+      ReactDOM.render(<BetterCDT initDate='May 6, 2019' />, document.getElementById('countdownClock'));
+    }, 50);
+		//<img src='Assets/GradCap.png' width='28'>
+    document.getElementById("countdownClockBanner").innerHTML = "<span class='greenWhite2'>ASU Spring Semester Ends</span>";
+    
+    /***************************************** Countdown Timer Variables **********************************************************/    
+    
+  </script>
+  
+  <style type="text/css">
+  
+    /* for the navbar buttons */
+    .NavBar1
+    {
+	    border: 2px solid #cccccc;
+	    display: flex;
+	    flex-direction: row;
+	    /*justify-content: space-around;*/
+	    width: 300px;
+	    /* align-items: center; */
+	    box-sizing: border-box;
+      background-color: white;
+	    margin: 10px;
+	    font-family: Arial Narrow;
+	    font-size: 10px;
+    }
+    .NavBar1 > 
+      div
+      {
+	      /*padding: 5px;*/
+	      text-align: center;
+	      vertical-align: middle;
+	      /* color: blue;
+	      background-color: white;*/
+	      flex: 1 1 0;
+      }
+    .NavBar1 > div:nth-child(1){/*background-color: white;color:black;*/}
+    .NavBar1 > div:nth-child(2){/* background-color: #96ceb4; */}
+    .NavBar1 > div:nth-child(3){/* background-color: #ff6f69; */}
+    .NavBar1 > div:nth-child(4){/* background-color: #88d8b0; */}
+    
+    .NavBar2
+    {
+	    border: 2px solid #bbaa5c;
+	    display: flex;
+	    flex-direction: row;
+	    /*justify-content: space-around;*/
+	    width: 750px;
+	    /* align-items: center; */
+	    box-sizing: border-box;
+      background-color: #ffeead;
+	    margin: 10px;
+	    font-family: Arial Narrow;
+	    font-size: 10px;
+    }
+    .NavBar2 > 
+      div
+      {
+	      /*padding: 5px;*/
+	      text-align: center;
+	      vertical-align: middle;
+	      /* color: blue;
+	      background-color: white;*/
+	      flex: 1 1 0;
+      }
+    .NavBar2 > div:nth-child(1){background-color: white;color:black;}
+    .NavBar2 > div:nth-child(2){/* background-color: #96ceb4; */}
+    .NavBar2 > div:nth-child(3){/* background-color: #ff6f69; */}
+    .NavBar2 > div:nth-child(4){/* background-color: #88d8b0; */}
+  
+    </style>
+   
+    <style type="text/css">
+/* For the digital clock */
+
+.DigitalClockStyle
+{
+  background-color: #DDFFDD;
+  color: black;
+}
+.NAUblue
+{
+  background-color: #003E7E;
+  color: White;
+}
+.NAUgreen
+{
+  background-color: #6A8C78;
+  color: #003E7E;
+}
+</style>
+  
+    <!-- for the dynamic calendar and digital clock -->
+    <!-- calendar code from: http://docs.dhtmlx.com/scheduler/codebase/ -->
+    <script type="text/javascript" src="Assets/dhtmlxscheduler.js"></script>
+    <link rel="stylesheet" type="text/css" href="Assets/dhtmlxscheduler.css">
+    <script type="text/javascript" src="Assets/dhtmlxscheduler_minical.js"></script>
+  
+    <!-- for the Fourth of July: currently runs from here but it uses html5 canvas -->
+    <!-- see the starbucks demo for how to get this to work -->
+    <!-- <script src="Assets/Fireworks.js"></script> -->
+
+    <script type="text/javascript" language="javascript">
+      
+    function showClock()
+    {
+      var alternate=0;
+      var standardbrowser=!document.all&&!document.getElementById;
+      if (!standardbrowser)
+      {
+        var clockobj=document.getElementById? document.getElementById("digitalclock") : document.all.digitalclock;
+        var Digital=new Date(), hours=Digital.getHours(), minutes=Digital.getMinutes();
+
+        var dn="AM";
+        if (hours==12){dn="PM";}
+        if (hours > 12){dn="PM"; hours=hours-12;}
+
+        if (hours==0){hours=12};
+        if (hours.toString().length==1) hours="0" + hours;
+        if (minutes<=9) minutes="0" + minutes;
+      }
+      if (standardbrowser)
+      {
+        var dn="AM";
+        if (hours==12){dn="PM";}
+        if (hours > 12){dn="PM"; hours=hours-12;}
+
+        if (alternate==0) document.tick.tock.value=hours+" : "+minutes+" "+dn;
+        else document.tick.tock.value=hours+"   "+minutes+" "+dn;
+      }
+      else
+      {
+        if (alternate==0) clockobj.innerHTML=hours + " : " + minutes + " " + dn;
+        else clockobj.innerHTML=hours + " : " + minutes + " " + dn;
+      }
+
+      alternate=(alternate==0)? 1 : 0;
+      setTimeout("show()",1000);
+    }
+    
+    function showCalendar() 
+    {
+      var currentDate = new Date();
+          scheduler.config.xml_date="%Y-%m-%d %H:%i";
+          scheduler.init('scheduler_here',currentDate,"day");
+          scheduler.load("./data/events.xml",function()
+      {
+      scheduler.renderCalendar
+      (
+        {
+          container:"mini_here",
+          date:scheduler._date,
+          navigation:true,
+          handler:function(date,calendar)
+          {
+            alert(date);
+          }
+        });
+      });
+    }
+    
+    function init()
+    {
+      showClock();
+      showCalendar();
+    }
+    
+    function changeBackground(strImageFileSpec)
+    {
+           // ideal background width i= 1147
+          
+      strPath = "url('Assets/" + strImageFileSpec + "')";
+      with(document.body.style)
+      {
+        backgroundImage = strPath;
+        backgroundAttachment = "fixed"; 
+        backgroundRepeat = "no-repeat";
+      }
+    }
+    
+  </script>
+  
+    <script type="text/javascript" language="javascript">
+    //window.open(url,'_blank');
+    function picCalendar()
+    {
+      var elementSelectBox = document.getElementById("selCalendar");
+      window.open("http://nau.edu/registrar/important-dates/" + elementSelectBox.options[elementSelectBox.selectedIndex].text, "_blank,");
+    }
+  </script>
+  
+</head>
+
+<body onLoad="init();">
+
+<table id="container" style="width:1280px;">
+  <tr>
+    <td>
+      <table id="content" style="border: 1px solid green;" width="98%">
+
+<tr id="dateBarContainer">
+  <td align="left" valign="top">
+
+    <table width="99%" align="left" id="dateBar">
+
+<tr>
+
+  <td height="21" align="center">
+    <a href="http://www.deckerd26354.net/projects/AboutMeLocal/Root.htm" title="Author of this web page" target="_blank" class="dhx_cal_event_line">
+      <i>John Bonifas made this!</i>
+    </a>
+</td>
+  
+  <td width="94" rowspan="2" align="center" valign="middle">
+    
+    <!-- Analog Clock -->
+    
+    <iframe src="http://free.timeanddate.com/clock/i5n9gp04/n197/szw80/szh80/hoc09f/hbw0/hfc09f/cf100/hnce1ead6/fas30/fdi66/mqc000/mql15/mqw4/mqd98/mhc000/mhl15/mhw4/mhd98/mmc000/mml10/mmw1/mmd98/hhs2/hms2" frameborder="0" width="80" height="80"></iframe>
+
+    <!-- Digital Clock -->
+    
+    <div id="currentTime">
+      <span id="digitalclock" class="DigitalClockStyle"></span>
+  </div>        
+    
+</td>
+
+<td width="308" rowspan="2" align="center" valign="middle">
+  <a class="weatherwidget-io" href="https://forecast7.com/en/33d45n112d07/phoenix/?unit=us" 
+      data-label_1="PHOENIX" data-label_2="Flagstaff" data-font="Arial" data-icons="Climacons Animated" data-theme="weather_one"
+  >PHOENIX Flagstaff</a>  
+	<script>
+    !function(d,s,id)
+	  {
+		  var js,fjs=d.getElementsByTagName(s)[0];
+		  if(!d.getElementById(id))
+		  {
+			  js=d.createElement(s);
+			  js.id=id;
+			  js.src='https://weatherwidget.io/js/widget.min.js';
+			  fjs.parentNode.insertBefore(js,fjs);
+		  }
+	  }(document,'script','weatherwidget-io-js');
+  </script>
+</td>
+
+  <td width="327" rowspan="2" align="center" valign="middle" class="NAUblue">
+  
+    <div style="float:left;">
+      <span class="tinyLightGrey">
+        <a href="https://facebook.github.io/react/" target="_blank" style="color:white;">
+          <img src="http://sdtimes.com/wp-content/uploads/2016/04/0408.sdt-news.png" width="50" height="50" 
+               title="This component developed using the React API by Facebook">
+        </a>
+      </span>
+  </div>
+  
+    <span class="tinyLightGrey">
+      <div>
+        <span style="color:white;" id="countdownClockBanner"></span><br>
+        <br>
+        <div id="countdownClock" style="color:white;"></div>
+    </div>
+    </span>
+  
+</td>
+  
+</tr>
+<tr>
+  <td width="375">
+  
+    <div id="CurrentDate">
+    
+    <!-- IMPORTANT DATES SCRIPT -->
+    <script type="text/javascript" language="javascript">
+    
+    // for memorial day
+    function getMemorialDay()
+    {
+      var d = new Date();
+      d.setMonth(5);
+      d.setDate(0);
+      lastmonday = d.getDate() - (d.getDay() - 1);
+      return lastmonday;
+    }
+    
+    // for Easter
+    function getEasterSunday(wYear)
+    {
+      // calculate easter sunday
+      // [in]  wYear  - 4-digit year to calculate (but not before 1583)
+      // [out] wMonth - month of easter sunday
+      // [out] wDay   - day of easter sunday
+      
+      var wCorrection = 0;   
+      var strOutput = [];
+            
+      if( wYear < 1700 )  wCorrection = 4;
+      else if( wYear < 1800 ) wCorrection = 5;
+      else if( wYear < 1900 ) wCorrection = 6;
+      else if( wYear < 2100 ) wCorrection = 0;
+      else if( wYear < 2200 ) wCorrection = 1;
+      else if( wYear < 2300 ) wCorrection = 2;
+      else if( wYear < 2500 ) wCorrection = 3;
+      
+      wDay = (19 * (wYear % 19) + 24) % 30;        
+      wDay = 22 + wDay + ((2 * (wYear % 4) + 4 * (wYear % 7) + 6 * wDay + 5 + wCorrection) % 7);
+      
+      // jump to next month
+      if( wDay > 31 )
+      {
+        wMonth = 4;
+        wDay -= 31;
+      }
+      else
+      {
+        wMonth = 3;
+      }
+      strOutput[0] = wMonth;
+      strOutput[1] = wDay;
+      return strOutput;
+    }
+        
+    var calendar = new Date(),
+        day = calendar.getDay(),
+        month = calendar.getMonth(),
+        date = calendar.getDate(),
+        year = calendar.getYear();
+
+    if (year < 1000)
+    {
+      year+=1900;
+      cent = parseInt(year/100);
+    }
+
+    g = year % 19;
+    k = parseInt((cent - 17)/25);
+    i = (cent - parseInt(cent/4) - parseInt((cent - k)/3) + 19*g + 15) % 30;
+    i = i - parseInt(i/28)*(1 - parseInt(i/28)*parseInt(29/(i+1))*parseInt((21-g)/11));
+    j = (year + parseInt(year/4) + i + 2 - cent + parseInt(cent/4)) % 7;
+    l = i - j;
+
+        /*
+          THIS PART IS CRITICAL TO THE FUNCTIONING OF THE SCRIPT - DO NOT CHANGE ********** 
+        */    
+    emonth = 3 + parseInt((l + 40)/44);
+    edate = l + 28 - 31*parseInt((emonth/4));
+    emonth--;
+    // ********************************************************************************
+        
+    var dayname = new Array ("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+    var monthname = new Array ("January","February","March","April","May","June","July","August","September","October","November","December" );
+
+    document.write("");
+    document.write(dayname[day] + ", ");
+    document.write(monthname[month] + " ");
+
+    if (date< 10)
+    {
+      document.write("0" + date + ", ");
+    }
+    else
+    {
+      document.write(date + ", ");
+    }
+
+    document.write(year + "    ");
+
+    // HOLIDAYS  ===========================================================================================================================
+
+    document.write('&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;padding:3px;"><b><i>');
+
+    // January
+    if ((month == 0) && (date == 1))  document.write("New Year's Day");
+    if ((month == 0) && (date == 3))  document.write("Robin's Birthday");
+    if ((month == 0) && (date == 15)) document.write("Adults Day (Japan)");
+    if ((month == 0) && (date == 26)) document.write("Australia Day");
+    if ((month == 0) && (day == 1) && (date > 14) && (date< 22)) document.write("Martin Luther King's Birthday");
+    
+    // February
+    if ((month == 1) && (date == 2))  document.write("Groundhog Day");
+    if ((month == 1) && (date == 11)) document.write("National Foundation Day (Japan)");
+    if ((month == 1) && (date == 12)) document.write("Lincoln's Birthday");
+    if ((month == 1) && (date == 14)) document.write("Valentine's Day"); 
+    if ((month == 1) && (date == 22)) document.write("Washington's Birthday");
+    if ((month == 1) && (date == 29)) document.write("Leap Day");
+    
+    // March
+    if ((month == 2) && (date == 3))  document.write("Girl's Day (Japan)");
+    if ((month == 2) && (date == 9))  document.write("International Women's Day");        
+    if ((month == 2) && (date == 17)) 
+    {
+      document.write("St. Patrick's Day, Mon Clayton's Birthday");
+      document.body.style.backgroundColor = "#D1F095";
+      document.body.style.backgroundImage = "url('Assets/StPatricksDay.jpg')";
+      document.body.style.backgroundAttachment = "fixed";
+    }
+    if ((month == 2) && (date == 19)) 
+    {
+      document.write("John and Robin Tech Anniversary (1986)");
+      changeBackground("RobinAndJohn1988.jpg");
+      document.body.style.backgroundColor = "#FFFFFF";
+    }
+    
+    if ((month == 2) && (date == 9))  document.write("Vietnam War Veterans Day");        
+
+    // April
+    if ((month == 3) && (date == 1))
+    {
+      document.write("April Fools Day");
+      changeBackground("AprilFools.jpg");
+    }
+    if ((month == 3) && (date == 2))  
+        {
+           document.write("World Autism Awareness Day");
+            changeBackground("AutismSpeaks.jpg");
+        }
+    if ((month == 3) && (date == 7))
+        {
+           document.write("Harry Potter Day (USA), World Health Day");
+            changeBackground("HarryPotter.jpg");
+        }
+     if ((month == 3) && (date == 10)) document.write("National Siblings Day");      
+    if ((month == 3) && (date == 13)) document.write("Thomas Jefferson's Birthday");
+    if ((month == 3) && (date == 15))
+        {
+        }
+    if ((month == 3) && (date == 20))
+        {
+      document.write("International Holocaust Rememberance Day");
+            changeBackground("HolocauseRememberanceDay.jpg");
+    }
+    if ((month == 3) && (date == 22))
+    {
+      document.write("Earth Day");
+      changeBackground("EarthDay.jpg");
+    }
+     if ((month == 3) && (date == 24)) document.write("Labor Safety Day (Bangladesh)");      
+    if ((month == 3) && (date == 29)) document.write("Emperor's Birthday (Japan)");
+    
+        if ((month == emonth) && (date == edate)) 
+        /*
+        arrEaster = getEasterSunday(year);
+    if ((month == arrEaster[0]) && (date == arrEaster[1]))
+        */
+    {
+      document.write("Easter Sunday (Western)");
+      changeBackground("Easter.jpg");
+    }
+        
+    // May
+    if ((month == 4) && (date == 1))  document.write("May Day, Boy's Day (Japan)");
+    if ((month == 4) && (date == 2))  document.write("Constitution Day (Japan)");
+    if ((month == 4) && (date == 5))  document.write("Cinco de Mayo (Mexico)");
+    if ((month == 4) && (date == 14)) document.write("Independence Day (Paraguay)");
+    if ((month == 4) && (date == getLastMonday())) document.write("Memorial Day");
+    
+    // June
+    if ((month == 5) && (date == 3))  document.write("National Doughnut Day");
+    if ((month == 5) && (date == 6))  document.write("D-Day (USA)");
+    if ((month == 5) && (date == 14)) document.write("FlagDay (USA)");
+    if ((month == 5) && (date == 16)) document.write("Father's Day");
+    if ((month == 5) && (date == 19))
+    {
+      document.write("Mia Sara's Birthday");
+      changeBackground("MiaSara.png");
+    }
+    if ((month == 5) && (date == 21)) document.write("Summer Solstice");
+    if ((month == 5) && (date == 24)) document.write("St. Jean Baptiste Day (Canada)");
+    if ((month == 5) && (date == 29)) document.write("Heidi's Birthday");
+    if ((month == 5) && (date == 30)) document.write("Independence Day (Zaire)");
+    
+    // July
+    if ((month == 6) && (date == 1))  document.write("Independence Day (Canada)");
+    if ((month == 6) && (date == 3))  document.write("Rubinstein–Taybi Syndrome Awareness Day");        
+    if ((month == 6) && (date == 4)) 
+    {
+      document.write("<span style='color:yellow;'>Independence Day (USA)</span>");
+      document.body.style.background = "#FFFF99";
+			document.body.style = "color:white;background-color:#000000;margin: 0px;overflow: hidden;";
+	    changeBackground("IndependanceDay.jpg");
+			
+      //fireworks.js - currently doesn't work because it has to be in init() somehow - see Fireworks.htm
+      //launch("fireworks");
+    }
+    if ((month == 6) && (date == 14)) document.write("Bastille Day (France)");
+    if ((month == 6) && (date == 18)) document.write("Nelson Mandela Day");
+    if ((month == 6) && (date == 25))
+    {
+      document.write("<span style='Color:yellow;'>Chris Squire Day (Phoenix)</span>");
+      document.body.style = "color:white;background-color:#000000;margin: 0px;overflow: hidden;";
+      changeBackground("ChrisSquire.jpg");
+    }
+    if ((month == 6) && (date == 31))
+    {
+      document.write("J.K. Rowling's Birthday");
+      changeBackground("JKrowling.jpg");
+    }
+    
+		// August
+    if ((month == 7) && (date == 1))  document.write("Confederation Day (Switzerland)");
+    if ((month == 7) && (date == 10)) document.write("Independence Day (Ecuador)");
+    if ((month == 7) && (date == 15)) document.write("Independence Day (India)");
+    if ((month == 7) && (date == 17)) document.write("John &amp; Robin Wedd Ann (1991)");
+
+    // Fall and Halloween
+    if ((month == 8) || (month==9))
+    {
+      if ((month == 9) && (date == 31))
+      {
+        document.write("Halloween");
+        //launch("halloween");
+      }
+      else
+      {
+        //launch("fall");
+      }
+    }
+    
+    // September
+    if ((month == 8) && (date == 7))  document.write("Independence Day (Brazil)");    
+    if ((month == 8) && (date == 13)) document.write("Grandparents Day");
+    if ((month == 8) && (date == 15)) document.write("Respect for the Aged Day (Japan)");
+    if ((month == 8) && (date == 16)) document.write("Independence Day (Mexico)");
+    if ((month == 8) && (day== 1) && (date > 0) && (date< 8)) document.write("Labor Day (USA)");
+    
+    // October (Halloween is up above in Fall)
+    if ((month == 9) && (date == 1))  document.write("German Reunufication (1990)");
+    if ((month == 9) && (date == 10)) document.write("Health-Sports Day (Japan)");
+    if ((month == 9) && (date == 11)) document.write("National Coming Out Day");        
+    if ((month == 9) && (date == 12)) document.write("National Farmers Day");
+    if ((month == 9) && (day == 1) && (date > 7) && (date< 16)) document.write("Columbus Day (USA)");
+    if ((month == 9) && (day == 19)) document.write("Domestic Violence Day");        
+    if ((month == 9) && (day == 23)) document.write("National Slap Your Coworker Day (USA)");
+    if ((month == 9) && (date == 24)) document.write("United Nations Day");
+        
+    // Winter
+    if ((month == 10) || (month == 11))
+    {
+      //launch("snow");
+    }
+
+    // November     
+    if ((month == 10) && (date == 1)) document.write("All Saints Day");
+    if ((month == 10) && (date == 2)) document.write("All Souls Day and Arizona Switches to Mountain Time");
+    if ((month == 10) && (date == 3)) document.write("National Sandwich Day");
+    if ((month == 10) && (date == 11)) document.write("Veteran's Day (USA), Remembrance Day (Canada), Singles Day (China)");
+    if ((month == 10) && (date == 17)) document.write("National Facebook Unfriend Day");    
+    if ((month == 10) && (date == 20)) document.write("Revolution Day (Mexico)");
+    if ((month == 10) && (date == 23)) document.write("Thanksgiving Day (Japan)");
+    
+    // December
+    if ((month == 11) && (date == 10)) document.write("Human Rights Day");
+    if ((month == 11) && (date == 21)) document.write("Winter Solstice");
+    if ((month == 11) && (date == 24)) document.write("Christmas Eve");
+    if ((month == 11) && (date == 25)) document.write("Christmas Day");
+    if ((month == 11) && (date == 26)) document.write("Boxing Day");
+    if ((month == 11) && (date == 31)) document.write("New Years Eve");
+
+    document.write("</i></b></span>");
+
+    // =========================================================================================================================
+
+  </script>
+    
+  </div>
+  
+</td>
+      </tr>
+  </table>
+    
+</td>
+</tr>
+
+<tr id="tblContainer">
+  <td>
+    
+    <table id="tblSubContainer">
+      
+      <tr>
+        
+        <td width="709" align="left" valign="top">
+          
+            <div align="top">
+              <iframe src="https://calendar.google.com/calendar/embed?src=pudnikatasu%40gmail.com&ctz=America%2FPhoenix" 
+                      style="border: 0" width="800" height="600" frameborder="0" scrolling="no">
+              </iframe>
+            </div>
+
+            <!-- 687 px height matches right column -->        
+            
+            <pre style="background-image:url(Assets/NAUgraduateSchoolBanner.png);background-position:right;background-repeat:no-repeat;width:800px;text-wrap: normal;">
+              
+              <div>
+   CPAP machine, Micronair for Winter, sinuses, med deceleration, fitness. marriage counselor, bug car
+    
+              </div>
+
+
+
+</pre>
+            
+            <div id="navBarContainer">
+              
+              <nav class="NavBar2">
+                <div>Shuttlebus ===></div>
+                <div class="btn_fancy_blue"><a href="http://www.asu.prod.ridesystems.net/default.aspx" target="_blank">Location</a></div>
+                <div class="btn_fancy_blue"><a href="https://cfo.asu.edu/shuttles#maroon" target="_blank">Acadyear</a></div>
+                <div class="btn_fancy_blue"><a href="https://cfo.asu.edu/class-break-campus-shuttles#maroon" target="_blank">Sum/Wint Breaks</a></div>
+                <div class="btn_fancy_blue"><a href="https://cfo.asu.edu/holiday-campus-shuttles#maroon" target="_blank">Holiday</a></div>
+                <div class="btn_fancy_blue"><a href="https://cfo.asu.edu/weekend-campus-shuttles#maroon" target="_blank">Weekend</a></div>
+              </nav>
+              
+              <div class="NAUblue" id="SpecialArea1" style="vertical-align: bottom; color: #68D5A8;text-align:center;" name="SpecialArea1"> 
+                NAU Academic Calendars<br>
+                <select id="selCalendar" onChange="picCalendar();">
+                  <option value="" selected></option>
+                  <option value="spring-2019">spring-2019</option>
+                  <option value="fall-2019">fall-2019</option>
+                </select>  
+              </div>
+              
+            </div>
+            
+          </td>
+          
+          <td width="323" align="center" valign="top" style="">
+          
+          <div id="dynamicCalendar" style="vertical-align:top;">
+            <div id="mini_here" style="width:300px;"></div>
+            <div id="scheduler_here" class="dhx_cal_container" style='width:300px; height:300px; display:none;'>
+              <div class="dhx_cal_navline">
+                <div class="dhx_cal_date"></div>
+                <div class="dhx_cal_tab" name="day_tab" style="right:76px;"></div>
+              </div>
+              <div class="dhx_cal_header"></div>
+              <div class="dhx_cal_data"></div>
+            </div>
+          </div>
+          <br>
+          <div class="NavBar1">
+            <div>Libraries ===></div>
+            <div><a href="https://library.nau.edu/general_information/hours.html" target="_blank" class="btn_fancy_blue">NAU</a></div>
+            <div><a href="https://lib.asu.edu/hours" target="_blank" class="btn_fancy_flesh">ASU</a></div>
+            <div><a href="https://uto.asu.edu/services/campus-it-sites/tempe" target="_blank" class="btn_fancy_teal">Tempe</a></div>
+          </div>
+          <br>
+          <div align="center" style="vertical-align:bottom;">
+            <a href="https://www.valleymetro.org/maps-schedules/rail/10022#" target="_blank">(light rail schedule web service pull goes here)</a>
+          </div>
+        
+        </td>
+      
+    </tr>
+      
+      <tr>
+        <td valign="top"><table align="center" width="99%" height="25">
+          <tr>
+            <td align="center" valign="middle">&nbsp;</td>
+        </tr>
+      </table>
+    </td>
+        <td id="SpecialArea2" name="SpecialArea2" align="center" valign="middle">
+          <table align="center" width="99%" height="1">
+            <tr>
+              <td align="center" valign="middle"></td>
+          </tr>
+        </table>
+    </td>
+</tr>
+    
+      <tr>
+        <td height="177" colspan="2" align="center" valign="middle" id="schedule2">
+        <img src="Assets/Spring2019.png" width="893" height="203">
+    </td>
+</tr>
+      </table>
+
+</td></tr></table>
+</td></tr></table>
+
+</body>
+</html>
